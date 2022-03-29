@@ -1,0 +1,106 @@
+---
+output: 
+  pdf_document:
+    keep_tex: yes
+    fig_caption: yes
+    number_sections: yes
+geometry: margin=2.54cm
+title: "Insert title of project here"
+subtitle: "Web address for GitHub repository"
+author: "Name"
+fontsize: 12pt
+mainfont: Times New Roman
+
+---
+
+\newpage
+\tableofcontents 
+\newpage
+\listoftables 
+\newpage
+\listoffigures 
+\newpage
+
+```{r setup, include=FALSE}
+# Set your working directory
+
+# Load your packages
+library(agricolae)
+library(corrplot)
+library(cowplot)
+library(dataRetrieval)
+library(extrafont)
+library(extrafontdb)
+library(ggpubr)
+library(ggthemes)
+library(hrbrthemes)
+library(Kendall)
+library(leaflet)
+library(lubridate)
+library(mapview)
+library(rvest)
+library(sf)
+library(tidycensus)
+library(tidyverse)
+library(trend)
+library(tseries)
+library(viridis)
+library(zoo)
+
+
+# Set your ggplot theme
+#Disable on-the-fly projections
+sf::sf_use_s2(FALSE)
+#Fix Mapview
+mapviewOptions(fgb = FALSE)
+
+Theme2 <- theme_ipsum()+
+  theme(legend.position = "bottom",
+        legend.key = element_rect(fill = "white", colour = "black"),legend.direction = "horizontal",
+        legend.title = element_text(face = "bold"))
+theme_set(Theme2)
+
+
+# Load your datasets
+
+```
+
+
+# Rationale and Research Questions
+
+
+
+\newpage
+
+# Dataset Information
+
+
+
+\newpage
+
+# Exploratory Analysis 
+
+
+
+\newpage
+
+# Analysis
+
+
+
+## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+
+## Question 2: 
+
+
+
+
+\newpage
+
+# Summary and Conclusions
+
+
+\newpage
+
+# References
+<add references here if relevant, otherwise delete this section> 
