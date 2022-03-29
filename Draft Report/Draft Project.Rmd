@@ -21,9 +21,14 @@ mainfont: Times New Roman
 \listoffigures 
 \newpage
 
-```{r setup, include=FALSE}
+```{r, initialize}
 # Set your working directory
+getwd()
+knitr::opts_knit$set(root.dir = "~/Desktop/Duke MPP/Environ Data /Environmental_Data_Analytics_2022/")
 
+```
+
+```{r setup, include=FALSE}
 # Load your packages
 library(agricolae)
 library(corrplot)
