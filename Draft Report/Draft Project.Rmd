@@ -16,11 +16,8 @@ mainfont: Times New Roman
 
 -   Write what you're thinking about!
 -   <https://www.thetransportpolitic.com/2022/01/24/openings-and-construction-starts-planned-for-2022/>
-- <https://theintercept.com/2022/02/12/wildfires-prisons-climate-california/>
-- <https://cseveren.github.io/files/racialized_difference_commuting_20220320.pdf>
-<https://github.com/OpenFloodAI/Climate-Change-Datasets>
-https://github.com/firstlookmedia/climate-and-punishment-data
-\newpage-
+-   <https://theintercept.com/2022/02/12/wildfires-prisons-climate-california/>
+-   <https://cseveren.github.io/files/racialized_difference_commuting_20220320.pdf> <https://github.com/OpenFloodAI/Climate-Change-Datasets> <https://github.com/firstlookmedia/climate-and-punishment-data> \newpage-
 
 ```{=tex}
 \newpage
@@ -82,24 +79,30 @@ theme_set(Theme2)
 
 # Rationale and Research Questions
 
-
-
 # Dataset Information
+
 ## Methodology
+
 ### Gather Data Sources
-####EJSCREEN NC
-Gathered From: 
-#### National Risk Index
-Gathered from: https://hazards.fema.gov/nri/data-resources North Carolina 
+
+####EJSCREEN Gathered From: 
+2020
+#### National Risk Index 
+Gathered from: <https://hazards.fema.gov/nri/data-resources> North Carolina
 
 ### Clean Data Sources
-Filter and pipe each to just the variables of interest: location, titles, variables 1 and 2 
 
+Filter and pipe each to just the variables of interest: location, titles, variables 1 and 2
+
+
+Questions:(NC, FL, CA)
+1. 1960 Housing (size of datapoint) v Coastal Flood risk (Color on map)
+2. Percent Low Income v  Flood Risk
+--3? PM2.5 (size of datapoint) v Wildfire Risk  (color)--
 ### Present Descriptive Statistics and Maps
+### Time Series
 
-###
 \newpage
-
 
 # Exploratory Analysis
 
