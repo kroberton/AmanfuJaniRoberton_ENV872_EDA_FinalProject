@@ -12,6 +12,16 @@ fontsize: 12pt
 mainfont: Times New Roman
 ---
 
+## Potential research questions!!!
+
+-   Write what you're thinking about!
+-   <https://www.thetransportpolitic.com/2022/01/24/openings-and-construction-starts-planned-for-2022/>
+- <https://theintercept.com/2022/02/12/wildfires-prisons-climate-california/>
+- <https://cseveren.github.io/files/racialized_difference_commuting_20220320.pdf>
+<https://github.com/OpenFloodAI/Climate-Change-Datasets>
+https://github.com/firstlookmedia/climate-and-punishment-data
+\newpage-
+
 ```{=tex}
 \newpage
 \tableofcontents 
@@ -72,17 +82,24 @@ theme_set(Theme2)
 
 # Rationale and Research Questions
 
-## Potential research questions!!!
 
--   Write what you're thinking about!
--   <https://www.thetransportpolitic.com/2022/01/24/openings-and-construction-starts-planned-for-2022/>
-- <https://theintercept.com/2022/02/12/wildfires-prisons-climate-california/>
-- <https://cseveren.github.io/files/racialized_difference_commuting_20220320.pdf>
-\newpage-
 
 # Dataset Information
+## Methodology
+### Gather Data Sources
+####EJSCREEN NC
+Gathered From: 
+#### National Risk Index
+Gathered from: https://hazards.fema.gov/nri/data-resources North Carolina 
 
+### Clean Data Sources
+Filter and pipe each to just the variables of interest: location, titles, variables 1 and 2 
+
+### Present Descriptive Statistics and Maps
+
+###
 \newpage
+
 
 # Exploratory Analysis
 
