@@ -11,7 +11,12 @@ author: "Name"
 fontsize: 12pt
 mainfont: Times New Roman
 ---
+```{r, initialize}
+# Set your working directory
+getwd()
+knitr::opts_knit$set(root.dir = '/xxxDesktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject')
 
+```
 ## Potential research questions!!!
 
 -   Write what you're thinking about!
@@ -28,12 +33,7 @@ mainfont: Times New Roman
 \listoffigures 
 \newpage
 ```
-```{r, initialize}
-# Set your working directory
-getwd()
-knitr::opts_knit$set(root.dir = "~/Desktop/Duke MPP/Environ Data /Environmental_Data_Analytics_2022/")
 
-```
 
 ```{r setup, include=FALSE}
 # Load your packages
@@ -84,6 +84,12 @@ theme_set(Theme2)
 ## Methodology
 
 ### Gather Data Sources
+```{r load datasources}
+NRICali <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_California/NRI_Table_CensusTracts_California.csv', stringsAsFactors = TRUE)
+NRINorCar <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_NorthCarolina/NRI_Table_CensusTracts_NorthCarolina.csv', stringsAsFactors = TRUE)
+NRIFlor <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_Florida/NRI_Table_CensusTracts_Florida.csv', stringsAsFactors = TRUE)
+EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv')
+```
 
 ####EJSCREEN Gathered From: 
 2020
@@ -93,6 +99,50 @@ Gathered from: <https://hazards.fema.gov/nri/data-resources> North Carolina
 ### Clean Data Sources
 
 Filter and pipe each to just the variables of interest: location, titles, variables 1 and 2
+```{r initial filter}
+NRICali2 <- NRICali %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,
+         ends_with("RATNG"),ends_with("RISKS"),ends_with("RISKR"),ends_with("EVENTS"),
+         ends_with("SCORE"),ends_with("EALS"),ends_with("EALR")) %>%
+         select(!starts_with("LTNG"),!starts_with("AVLN"),!starts_with("HAIL"),
+                !starts_with("LNDS"),!starts_with("VLCN"))
+
+NRIFlor2 <- NRIFlor %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,
+         ends_with("RATNG"),ends_with("RISKS"),ends_with("RISKR"),ends_with("EVENTS"),
+         ends_with("SCORE"),ends_with("EALS"),ends_with("EALR")) %>%
+         select(!starts_with("LTNG"),!starts_with("AVLN"),!starts_with("HAIL"),
+                !starts_with("LNDS"),!starts_with("VLCN"))
+
+NRINorCar2 <- NRINorCar %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,
+         ends_with("RATNG"),ends_with("RISKS"),ends_with("RISKR"),ends_with("EVENTS"),
+         ends_with("SCORE"),ends_with("EALS"),ends_with("EALR")) %>%
+         select(!starts_with("LTNG"),!starts_with("AVLN"),!starts_with("HAIL"),
+                !starts_with("LNDS"),!starts_with("VLCN"))
+
+EJScreen21 <- EJScreen21 %>%
+  filter(grepl('Florida|California|North Carolina',STATE_NAME))
+```
+
+
+```{r risk filters}
+#flood risks
+NRICaliFlood <- NRICali2 %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
+NRIFlorFlood <- NRIFlor2 %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
+NRINorCarFlood <- NRINorCar2 %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
+
+#fire risks
+NRICaliFire <- NRICali2 %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,starts_with("WFIR"))
+NRIFlorFire <- NRIFlor2 %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,starts_with("WFIR"))
+NRINorCarFire <- NRINorCar2 %>%
+  select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,starts_with("WFIR"))
+```
 
 
 Questions:(NC, FL, CA)
