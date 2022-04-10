@@ -71,10 +71,6 @@ Theme2 <- theme_ipsum()+
         legend.key = element_rect(fill = "white", colour = "black"),legend.direction = "horizontal",
         legend.title = element_text(face = "bold"))
 theme_set(Theme2)
-
-
-# Load your datasets
-
 ```
 
 # Rationale and Research Questions
@@ -85,10 +81,11 @@ theme_set(Theme2)
 
 ### Gather Data Sources
 ```{r load datasources}
+# Load your datasets
 NRICali <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_California/NRI_Table_CensusTracts_California.csv', stringsAsFactors = TRUE)
 NRINorCar <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_NorthCarolina/NRI_Table_CensusTracts_NorthCarolina.csv', stringsAsFactors = TRUE)
 NRIFlor <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_Florida/NRI_Table_CensusTracts_Florida.csv', stringsAsFactors = TRUE)
-EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv')
+EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv',stringsAsFactors = TRUE)
 ```
 
 ####EJSCREEN Gathered From: 
@@ -126,6 +123,13 @@ EJScreen21 <- EJScreen21 %>%
 ```
 
 
+
+
+
+Questions:(NC, FL, CA)
+1. 1960 Housing (size of datapoint) v Coastal Flood risk (Color on map)
+2. Percent Low Income v  Flood Risk
+--3? PM2.5 (size of datapoint) v Wildfire Risk  (color)--
 ```{r risk filters}
 #flood risks
 NRICaliFlood <- NRICali2 %>%
@@ -144,12 +148,14 @@ NRINorCarFire <- NRINorCar2 %>%
   select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,starts_with("WFIR"))
 ```
 
+```{r EJScreen Filters}
+EJ_filter <- EJScreen21 %>%
+  select(ID,STATE_NAME,contains("INCPCT"),contains("HSPCT"),LINGISOPCT,PRE1960PCT,contains("LDPNT"),contains("PM25"))
+```
 
-Questions:(NC, FL, CA)
-1. 1960 Housing (size of datapoint) v Coastal Flood risk (Color on map)
-2. Percent Low Income v  Flood Risk
---3? PM2.5 (size of datapoint) v Wildfire Risk  (color)--
 ### Present Descriptive Statistics and Maps
+
+
 ### Time Series
 
 \newpage
