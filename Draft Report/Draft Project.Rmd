@@ -14,7 +14,7 @@ mainfont: Times New Roman
 ```{r, initialize}
 # Set your working directory
 getwd()
-knitr::opts_knit$set(root.dir = '/xxxDesktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject')
+knitr::opts_knit$set(root.dir = '/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject')
 
 ```
 ## Potential research questions!!!
@@ -82,10 +82,10 @@ theme_set(Theme2)
 ### Gather Data Sources
 ```{r load datasources}
 # Load your datasets
-NRICali <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_California/NRI_Table_CensusTracts_California.csv', stringsAsFactors = TRUE)
-NRINorCar <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_NorthCarolina/NRI_Table_CensusTracts_NorthCarolina.csv', stringsAsFactors = TRUE)
-NRIFlor <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_Florida/NRI_Table_CensusTracts_Florida.csv', stringsAsFactors = TRUE)
-EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv',stringsAsFactors = TRUE)
+NRICali <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_California/NRI_Table_CensusTracts_California.csv', stringsAsFactors = TRUE)
+NRINorCar <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_NorthCarolina/NRI_Table_CensusTracts_NorthCarolina.csv', stringsAsFactors = TRUE)
+NRIFlor <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_Florida/NRI_Table_CensusTracts_Florida.csv', stringsAsFactors = TRUE)
+EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv',stringsAsFactors = TRUE)
 ```
 
 ####EJSCREEN Gathered From: 
@@ -151,9 +151,17 @@ NRINorCarFire <- NRINorCar2 %>%
 ```{r EJScreen Filters}
 EJ_filter <- EJScreen21 %>%
   select(ID,STATE_NAME,contains("INCPCT"),contains("HSPCT"),LINGISOPCT,PRE1960PCT,contains("LDPNT"),contains("PM25"))
+
 ```
 
 ### Present Descriptive Statistics and Maps
+Add in Shape Files 
+https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html
+```{r census tracts}
+california_tract <- st_read('./Potenital Data Sources/cb_2020_cali_tract_500k/cb_2020_06_tract_500k.shp')
+norcar_tract <- st_read('./Potential Data Sources/cb_2020_norcar_tract_500k/cb_2020_37_tract_500k.shp')
+florida_tract <- st_read('./Potential Data Sources/cb_2020_flor_tract_500k/cb_2020_12_tract_500k.shp')
+```
 
 
 ### Time Series
