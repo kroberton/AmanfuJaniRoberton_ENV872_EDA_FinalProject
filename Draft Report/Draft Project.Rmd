@@ -85,14 +85,17 @@ theme_set(Theme2)
 NRICali <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_California/NRI_Table_CensusTracts_California.csv', stringsAsFactors = TRUE)
 NRINorCar <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_NorthCarolina/NRI_Table_CensusTracts_NorthCarolina.csv', stringsAsFactors = TRUE)
 NRIFlor <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_Florida/NRI_Table_CensusTracts_Florida.csv', stringsAsFactors = TRUE)
-EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv',stringsAsFactors = TRUE)
+EJScreen20 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2020_StatePctile.csv',stringsAsFactors = TRUE)
+colnames(EJScreen20)
+#colnames(EJScreen21)
+#EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv',stringsAsFactors = TRUE)
 ```
 
 ####EJSCREEN Gathered From: 
 2020
 #### National Risk Index 
 Gathered from: <https://hazards.fema.gov/nri/data-resources> North Carolina
-
+And from <https://gaftp.epa.gov/EJSCREEN/2020/> for the EJ Screen Data
 ### Clean Data Sources
 
 Filter and pipe each to just the variables of interest: location, titles, variables 1 and 2
@@ -118,7 +121,7 @@ NRINorCar2 <- NRINorCar %>%
          select(!starts_with("LTNG"),!starts_with("AVLN"),!starts_with("HAIL"),
                 !starts_with("LNDS"),!starts_with("VLCN"))
 
-EJScreen21 <- EJScreen21 %>%
+EJScreen20 <- EJScreen20 %>%
   filter(grepl('Florida|California|North Carolina',STATE_NAME))
 ```
 
@@ -149,7 +152,7 @@ NRINorCarFire <- NRINorCar2 %>%
 ```
 
 ```{r EJScreen Filters}
-EJ_filter <- EJScreen21 %>%
+EJ_filter <- EJScreen20 %>%
   select(ID,STATE_NAME,contains("INCPCT"),contains("HSPCT"),LINGISOPCT,PRE1960PCT,contains("LDPNT"),contains("PM25"))
 
 ```
