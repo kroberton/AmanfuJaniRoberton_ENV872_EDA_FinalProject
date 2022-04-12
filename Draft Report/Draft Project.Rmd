@@ -217,14 +217,26 @@ CA_NRI_flood_shp <- left_join(california_tract,NRICaliFlood,by="TRACTFIPS")
 CA_EJ_df <- left_join(ca_gazetteer,EJ_Cali,by="TRACTID")
 CA_EJ_shp <- CA_EJ_df %>%
   st_as_sf(coords = c('INTPTLONG','INTPTLAT'), crs=4269)
-# mapview(CA_NRI_shp)
-mapview(CA_EJ_shp)
 ``` 
 
 
+```{r simple graphs}
+ggplot(CA_EJ_df,aes(y=LOWINCPCT,x=PM25))+geom_point(aes(color=LINGISOPCT))+geom_smooth(method="lm")+labs(title="PM25 v Low Income %",y="% Low Income Census Tract",x="PM25 Concentration")
+
+ggplot(CA_NRI_fire_shp,aes(y=POPULATION,x=WFIR_RISKR))+geom_boxplot()+coord_flip()+labs(title="Fire Risk versus Population",y="Fire Risk")
+ggplot(CA_NRI_flood_shp,aes(y=POPULATION,x=CFLD_RISKR))+geom_boxplot()+coord_flip()+labs(title="Coastal Flood Risk versus Population",y="Coastal Flood Risk")
+ggplot(CA_NRI_flood_shp,aes(y=POPULATION,x=RFLD_RISKR))+geom_boxplot()+coord_flip()+labs(title="Riverine Flood Risk versus Population",y="Riverine Flood Risk")
+```
+
+```{r simple mapview tests}
+mapview(CA_NRI_fire_shp,zcol="POPULATION")+ mapview(CA_NRI_flood_shp,zcol="RFLD_RISKR") +mapview(CA_EJ_shp,zcol="LOWINCPCT")
+```
+
 
 ```{r mapview tests}
-mapview(list(CA_NRI_fire_shp,CA_EJ_shp),zcol=c("WFIR_RISKS","PRE1960PCT"))
+mapview(list(CA_NRI_fire_shp,CA_EJ_shp),
+        zcol=c("WFIR_RISKS","PRE1960PCT"),
+        layer.name=list("Fire Risk","Relative Building Ages"))
 
 mapview(list(CA_NRI_flood_shp,CA_EJ_shp),
         zcol=list("CFLD_RISKS","PRE1960PCT"),
@@ -236,8 +248,8 @@ mapview(CA_NRI_fire_shp,zcol="WFIR_RISKS")
 mapview(CA_EJ_shp,zcol="LOWINCPCT",alpha.regions=.5,col.regions= mapviewPalette("mapviewTopoColors"))
 mapview(CA_EJ_shp,zcol="PRE1960PCT")
 
-mapshot(m, file = paste0(getwd(), "/map.png"),
-          remove_controls = c("homeButton", "layersControl"))
+# mapshot(m, file = paste0(getwd(), "/map.png"),
+#           remove_controls = c("homeButton", "layersControl"))
 ```
 
 ### Time Series
