@@ -14,8 +14,8 @@ mainfont: Times New Roman
 ```{r, initialize}
 # Set your working directory
 getwd()
-knitr::opts_knit$set(root.dir = '/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject')
-
+knitr::opts_knit$set(root.dir = '/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Project/')
+getwd()
 ```
 ## Potential research questions!!!
 
@@ -155,17 +155,90 @@ NRINorCarFire <- NRINorCar2 %>%
 EJ_filter <- EJScreen20 %>%
   select(ID,STATE_NAME,contains("INCPCT"),contains("HSPCT"),LINGISOPCT,PRE1960PCT,contains("LDPNT"),contains("PM25"))
 
+EJ_California <- EJ_filter %>%
+    filter(STATE_NAME=="California")
+EJ_NorCar <- EJScreen20 %>%
+  filter(STATE_NAME=="North Carolina")
+
+EJ_Florida <-EJScreen20 %>%
+  filter(STATE_NAME=="Florida")
+#write.csv(EJ_NorCar,'./Potential Data Sources/Census Tracts/EJScreen_NC.csv')
+#write.csv(EJ_Florida,'./Potential Data Sources/Census Tracts/EJScreen_FLorida.csv')
 ```
 
 ### Present Descriptive Statistics and Maps
 Add in Shape Files 
 https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html
 ```{r census tracts}
-california_tract <- st_read('./Potenital Data Sources/cb_2020_cali_tract_500k/cb_2020_06_tract_500k.shp')
-norcar_tract <- st_read('./Potential Data Sources/cb_2020_norcar_tract_500k/cb_2020_37_tract_500k.shp')
-florida_tract <- st_read('./Potential Data Sources/cb_2020_flor_tract_500k/cb_2020_12_tract_500k.shp')
+california_tract <- st_read('./Potential Data Sources/Census Tracts/cb_2020_cali_tract_500k/cb_2020_06_tract_500k.shp',)
+norcar_tract <- st_read('./Potential Data Sources/Census Tracts/cb_2020_norcar_tract_500k/cb_2020_37_tract_500k.shp')
+florida_tract <- st_read('./Potential Data Sources/Census Tracts/cb_2020_flor_tract_500k/cb_2020_12_tract_500k.shp')
+#mapview(california_tract,zcol="AWATER")
 ```
 
+
+```{r california file filtering}
+california_tract <- california_tract %>%
+  select(GEOID,NAMELSAD,NAMELSADCO,ALAND,AWATER,geometry) %>%
+  mutate(TRACTFIPS = as.double(substr(california_tract$GEOID,2,15)))
+NRICaliFire <- NRICaliFire %>%
+  select(TRACTFIPS,POPULATION,starts_with("WFIR"))
+NRICaliFlood <- NRICaliFlood %>%
+  select(TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
+
+
+# See GEOID Structure, <https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html> all the other stuff is Census Tracts not BlockGroups
+names(EJ_California)[names(EJ_California) == 'ID'] <- 'BLOCKID'
+EJ_California <- EJ_California %>%
+  mutate(TRACTID = as.double(substr(EJ_California$BLOCKID,1,10)))
+
+#now we convert into averages for the whole census tract. Imprecise but we've gotta do it
+EJ_Cali <- EJ_California %>%
+  select(!starts_with("T_")) %>%
+  group_by(TRACTID) %>%
+  summarize(across(!where(is.factor),mean))
+
+```
+https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.2020.html
+```{r longitude latitute for counties}
+#https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.2020.html
+gazetteer <- read.delim('./Potential Data Sources/Census Tracts/2021_Gaz_tracts_national.txt',stringsAsFactors = TRUE)
+
+ca_gazetteer <- gazetteer %>%
+  filter(USPS=="CA")%>%
+  select(!c(ALAND_SQMI,AWATER_SQMI))%>%
+  mutate(TRACTID = ca_gazetteer$GEOID)
+```
+
+```{r attempts to merge}
+CA_NRI_fire_shp <- left_join(california_tract,NRICaliFire,by="TRACTFIPS")
+CA_NRI_flood_shp <- left_join(california_tract,NRICaliFlood,by="TRACTFIPS")
+
+CA_EJ_df <- left_join(ca_gazetteer,EJ_Cali,by="TRACTID")
+CA_EJ_shp <- CA_EJ_df %>%
+  st_as_sf(coords = c('INTPTLONG','INTPTLAT'), crs=4269)
+# mapview(CA_NRI_shp)
+mapview(CA_EJ_shp)
+``` 
+
+
+
+```{r mapview tests}
+mapview(list(CA_NRI_fire_shp,CA_EJ_shp),zcol=c("WFIR_RISKS","PRE1960PCT"))
+
+mapview(list(CA_NRI_flood_shp,CA_EJ_shp),
+        zcol=list("CFLD_RISKS","PRE1960PCT"),
+        layer.name=list("Coastal Flood Risk","Relative Building Ages"),
+        col.regions=list(mapviewPalette("mapviewVectorColors"),mapviewPalette("mapviewTopoColors")),
+        alpha.regions=.5)
+
+mapview(CA_NRI_fire_shp,zcol="WFIR_RISKS")
+mapview(CA_EJ_shp,zcol="LOWINCPCT",alpha.regions=.5,col.regions= mapviewPalette("mapviewTopoColors"))
+mapview(CA_EJ_shp,zcol="PRE1960PCT")
+
+mapshot(m, file = paste0(getwd(), "/map.png"),
+          remove_controls = c("homeButton", "layersControl"))
+```
 
 ### Time Series
 
