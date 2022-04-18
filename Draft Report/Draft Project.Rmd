@@ -83,10 +83,13 @@ theme_set(Theme2)
 
 ```{r load datasources}
 # Load your datasets
-NRICali <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_California/NRI_Table_CensusTracts_California.csv', stringsAsFactors = TRUE)
-NRINorCar <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_NorthCarolina/NRI_Table_CensusTracts_NorthCarolina.csv', stringsAsFactors = TRUE)
-NRIFlor <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_Florida/NRI_Table_CensusTracts_Florida.csv', stringsAsFactors = TRUE)
-EJScreen20 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2020_StatePctile.csv',stringsAsFactors = TRUE)
+home_path <- '~/Desktop/Duke MPP/Environ Data /872 Final Project'
+
+
+NRICali <- read.csv(paste(home_path,'/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_California/NRI_Table_CensusTracts_California.csv',sep=""), stringsAsFactors = TRUE)
+NRINorCar <- read.csv(paste(home_path,'/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_NorthCarolina/NRI_Table_CensusTracts_NorthCarolina.csv',sep=""), stringsAsFactors = TRUE)
+NRIFlor <- read.csv(paste(home_path,'/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_Florida/NRI_Table_CensusTracts_Florida.csv',sep=""), stringsAsFactors = TRUE)
+EJScreen20 <- read.csv(paste(home_path,'/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2020_StatePctile.csv',sep=""),stringsAsFactors = TRUE)
 #colnames(EJScreen20)
 #colnames(EJScreen21)
 #EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv',stringsAsFactors = TRUE)
