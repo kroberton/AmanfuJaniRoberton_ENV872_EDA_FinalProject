@@ -37,3 +37,7 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+Potential Data Sources/Census Tracts/2021_Gaz_tracts_national.txt
+Potential Data Sources/EJSCREEN_2020_StatePctile.csv.zip
+Potential Data Sources/EJSCREEN_2020_StatePctile.csv
+Potential Data Sources/Census Tracts/Test_EJScreen_Florida.csv
