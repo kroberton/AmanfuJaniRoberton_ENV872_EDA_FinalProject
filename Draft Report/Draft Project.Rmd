@@ -11,12 +11,14 @@ author: "Name"
 fontsize: 12pt
 mainfont: Times New Roman
 ---
+
 ```{r, initialize}
 # Set your working directory
 getwd()
-knitr::opts_knit$set(root.dir = '/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject')
-
+knitr::opts_knit$set(root.dir = '/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Project/')
+getwd()
 ```
+
 ## Potential research questions!!!
 
 -   Write what you're thinking about!
@@ -33,8 +35,6 @@ knitr::opts_knit$set(root.dir = '/Desktop/Duke MPP/Environ Data /872 Final Proje
 \listoffigures 
 \newpage
 ```
-
-
 ```{r setup, include=FALSE}
 # Load your packages
 library(agricolae)
@@ -87,6 +87,7 @@ theme_set(Theme2)
 ## Methodology
 
 ### Gather Data Sources
+
 ```{r load datasources}
 # Load your datasets
 NRICali <- read.csv('../Dekstop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Data Sources/NRI_Table_CensusTracts_California/NRI_Table_CensusTracts_California.csv', stringsAsFactors = TRUE)
@@ -98,20 +99,16 @@ NRICali <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJa
 NRINorCar <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_NorthCarolina/NRI_Table_CensusTracts_NorthCarolina.csv', stringsAsFactors = TRUE)
 NRIFlor <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/NRI_Table_CensusTracts_Florida/NRI_Table_CensusTracts_Florida.csv', stringsAsFactors = TRUE)
 EJScreen20 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2020_StatePctile.csv',stringsAsFactors = TRUE)
-colnames(EJScreen20)
+#colnames(EJScreen20)
 #colnames(EJScreen21)
 #EJScreen21 <- read.csv('~/Desktop/Duke MPP/Environ Data /872 Final Project/AmanfuJaniRoberton_ENV872_EDA_FinalProject/Potential Data Sources/EJSCREEN_2021_StatePctile_Tracts.csv',stringsAsFactors = TRUE)
 >>>>>>> b92c65633995ab51d1cda083290780f5d8f4793e
 ```
 
-####EJSCREEN Gathered From: 
-2020
-#### National Risk Index 
-Gathered from: <https://hazards.fema.gov/nri/data-resources> North Carolina
-And from <https://gaftp.epa.gov/EJSCREEN/2020/> for the EJ Screen Data
-### Clean Data Sources
+####EJSCREEN Gathered From: 2020 #### National Risk Index Gathered from: <https://hazards.fema.gov/nri/data-resources> North Carolina And from <https://gaftp.epa.gov/EJSCREEN/2020/> for the EJ Screen Data ##\# Clean Data Sources
 
 Filter and pipe each to just the variables of interest: location, titles, variables 1 and 2
+
 ```{r initial filter}
 NRICali2 <- NRICali %>%
   select(OID_,NRI_ID,STATE,COUNTY,TRACTFIPS,POPULATION,
@@ -138,7 +135,9 @@ EJScreen20 <- EJScreen20 %>%
   filter(grepl('Florida|California|North Carolina',STATE_NAME))
 ```
 
+Questions:(NC, FL, CA) 1. 1960 Housing (size of datapoint) v Coastal Flood risk (Color on map) 2. Percent Low Income v Flood Risk --3? PM2.5 (size of datapoint) v Wildfire Risk (color)--
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -149,6 +148,8 @@ Questions:(NC, FL, CA)
 1. 1960 Housing (size of datapoint) v Coastal Flood risk (Color on map)
 2. Percent Low Income v  Flood Risk
 --3? PM2.5 (size of datapoint) v Wildfire Risk  (color)--
+=======
+>>>>>>> ee55e31bd651bb197b3f85cefbd497ef1aa5df49
 ```{r risk filters}
 #flood risks 
 NRICaliFlood <- NRICali2 %>%
@@ -180,18 +181,210 @@ EJ_filter <- EJScreen21 %>%
 EJ_filter <- EJScreen20 %>%
   select(ID,STATE_NAME,contains("INCPCT"),contains("HSPCT"),LINGISOPCT,PRE1960PCT,contains("LDPNT"),contains("PM25"))
 
+EJ_California <- EJ_filter %>%
+    filter(STATE_NAME=="California")
+
+EJ_NorCar <- EJ_filter %>%
+  filter(STATE_NAME=='North Carolina')
+
+EJ_Florida <-EJ_filter %>%
+  filter(STATE_NAME=="Florida")
+
+# EJ_NorCar <- EJScreen20 %>%
+#   filter(STATE_NAME=='North Carolina')
+# 
+# EJ_Florida <-EJScreen20 %>%
+#   filter(STATE_NAME=="Florida")
+
+#write.csv(EJ_NorCar,'./Potential Data Sources/Census Tracts/EJScreen_NC.csv',col.names)
+#write.csv(EJ_Florida,'./Potential Data Sources/Census Tracts/EJScreen_FLorida.csv')
 ```
 
 ### Present Descriptive Statistics and Maps
-Add in Shape Files 
-https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html
+
+Add in Shape Files <https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html>
+
 ```{r census tracts}
-california_tract <- st_read('./Potenital Data Sources/cb_2020_cali_tract_500k/cb_2020_06_tract_500k.shp')
-norcar_tract <- st_read('./Potential Data Sources/cb_2020_norcar_tract_500k/cb_2020_37_tract_500k.shp')
-florida_tract <- st_read('./Potential Data Sources/cb_2020_flor_tract_500k/cb_2020_12_tract_500k.shp')
+california_tract <- st_read('./Potential Data Sources/Census Tracts/cb_2020_cali_tract_500k/cb_2020_06_tract_500k.shp',)
+norcar_tract <- st_read('./Potential Data Sources/Census Tracts/cb_2020_norcar_tract_500k/cb_2020_37_tract_500k.shp')
+florida_tract <- st_read('./Potential Data Sources/Census Tracts/cb_2020_flor_tract_500k/cb_2020_12_tract_500k.shp')
+#mapview(california_tract,zcol="AWATER")
+```
+
+```{r california file filtering}
+california_tract <- california_tract %>%
+  select(GEOID,NAMELSAD,NAMELSADCO,ALAND,AWATER,geometry) %>%
+  mutate(TRACTFIPS = as.double(substr(california_tract$GEOID,2,15)))
+NRICaliFire <- NRICaliFire %>%
+  select(TRACTFIPS,POPULATION,starts_with("WFIR"))
+NRICaliFlood <- NRICaliFlood %>%
+  select(TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
+
+
+# See GEOID Structure, <https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html> all the other stuff is Census Tracts not BlockGroups
+names(EJ_California)[names(EJ_California) == 'ID'] <- 'BLOCKID'
+EJ_California <- EJ_California %>%
+  mutate(TRACTID = as.double(substr(EJ_California$BLOCKID,1,10)))
+
+#now we convert into averages for the whole census tract. Imprecise but we've gotta do it
+EJ_Cali <- EJ_California %>%
+  select(!starts_with("T_")) %>%
+  group_by(TRACTID) %>%
+  summarize(across(!where(is.factor),mean))
+```
+
+```{r florida file filtering}
+florida_tract <- florida_tract %>%
+  select(GEOID,NAMELSAD, NAMELSADCO, ALAND, AWATER, geometry) %>%
+  mutate(TRACTFIPS = as.double(substr(florida_tract$GEOID, 1,15)))
+NRIFlorFire <-NRIFlorFire %>%
+  select(TRACTFIPS,POPULATION,starts_with ("WFIR"))
+NRIFlorFlood <- NRIFlorFlood %>%
+  select(TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
+
+EJScreen_Florida <- EJ_Florida
+names(EJScreen_Florida)[names(EJScreen_Florida) == 'ID'] <- 'BLOCKID' 
+EJScreen_Florida <- EJScreen_Florida %>% mutate(TRACTID = as.double(substr(EJScreen_Florida$BLOCKID,1,11)))
+
+         
+EJ_Flor <- EJScreen_Florida %>%
+select(!starts_with("T_")) %>%
+group_by(TRACTID) %>%
+summarize(across(!where(is.factor), mean))
+```
+
+```{r north carolina file filtering}
+norcar_tract <- norcar_tract %>%
+  select(GEOID,NAMELSAD, NAMELSADCO, ALAND, AWATER, geometry) %>%
+  mutate(TRACTFIPS = as.double(substr(norcar_tract$GEOID, 1,15)))
+NRINorCarFire <-NRINorCarFire %>%
+  select(TRACTFIPS,POPULATION,starts_with ("WFIR"))
+NRINorCarFlood <- NRINorCarFlood %>%
+  select(TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
+
+EJScreen_norcar <- EJ_NorCar
+names(EJScreen_norcar)[names(EJScreen_norcar) == 'ID'] <- 'BLOCKID' 
+EJScreen_norcar <- EJScreen_norcar %>% mutate(TRACTID = as.double(substr(EJScreen_norcar$BLOCKID,1,11)))
+
+         
+EJ_NorCar <- EJScreen_norcar %>%
+select(!starts_with("T_")) %>%
+group_by(TRACTID) %>%
+summarize(across(!where(is.factor), mean))
 ```
 >>>>>>> b92c65633995ab51d1cda083290780f5d8f4793e
 
+<https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.2020.html>
+
+```{r longitude latitute for counties}
+#https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.2020.html
+gazetteer <- read.delim('./Potential Data Sources/Census Tracts/2021_Gaz_tracts_national.txt',stringsAsFactors = TRUE)
+
+ca_gazetteer <- gazetteer %>%
+  filter(USPS=="CA")
+
+ca_gazetteer <- ca_gazetteer %>%  
+  select(!c(ALAND_SQMI,AWATER_SQMI))%>%
+  mutate(TRACTID = ca_gazetteer$GEOID)
+
+fl_gazetteer <- gazetteer %>%
+  filter(USPS=="FL")
+
+fl_gazetteer <- fl_gazetteer %>%
+  select(!c(ALAND_SQMI, AWATER_SQMI)) %>%
+  mutate(TRACTID = fl_gazetteer$GEOID)
+
+nc_gazetteer <- gazetteer %>%
+  filter(USPS=="NC")
+
+nc_gazetteer <- nc_gazetteer %>%
+  select(!c(ALAND_SQMI, AWATER_SQMI)) %>%
+  mutate(TRACTID = nc_gazetteer$GEOID)
+```
+
+```{r attempts to merge}
+#California
+CA_NRI_fire_shp <- left_join(california_tract,NRICaliFire,by="TRACTFIPS")
+CA_NRI_flood_shp <- left_join(california_tract,NRICaliFlood,by="TRACTFIPS")
+
+CA_EJ_df <- left_join(ca_gazetteer,EJ_Cali,by="TRACTID")
+CA_EJ_shp <- CA_EJ_df %>%
+  st_as_sf(coords = c('INTPTLONG','INTPTLAT'), crs=4269)
+
+#Florida
+FL_NRI_fire_shp <- left_join(florida_tract,NRIFlorFire,by="TRACTFIPS")
+FL_NRI_flood_shp <- left_join(florida_tract,NRIFlorFlood,by="TRACTFIPS")
+
+FL_EJ_df <- left_join(fl_gazetteer,EJ_Flor,by="TRACTID")
+FL_EJ_shp <- FL_EJ_df %>%
+  st_as_sf(coords = c('INTPTLONG','INTPTLAT'), crs=4269)
+
+
+#North Carolina
+NC_NRI_fire_shp <- left_join(norcar_tract,NRINorCarFire,by="TRACTFIPS")
+NC_NRI_flood_shp <- left_join(norcar_tract,NRINorCarFlood,by="TRACTFIPS")
+
+NC_EJ_df <- left_join(nc_gazetteer,EJ_NorCar,by="TRACTID")
+NC_EJ_shp <- NC_EJ_df %>%
+  st_as_sf(coords = c('INTPTLONG','INTPTLAT'), crs=4269)
+```
+
+```{r simple graphs CA}
+ggplot(CA_EJ_df,aes(y=LOWINCPCT,x=PM25))+geom_point(aes(color=LINGISOPCT))+geom_smooth(method="lm")+labs(title="PM25 v Low Income %",y="% Low Income Census Tract",x="PM25 Concentration")
+
+ggplot(CA_NRI_fire_shp,aes(y=POPULATION,x=WFIR_RISKR))+geom_boxplot()+coord_flip()+labs(title="Fire Risk versus Population",y="Fire Risk")
+ggplot(CA_NRI_flood_shp,aes(y=POPULATION,x=CFLD_RISKR))+geom_boxplot()+coord_flip()+labs(title="Coastal Flood Risk versus Population",y="Coastal Flood Risk")
+ggplot(CA_NRI_flood_shp,aes(y=POPULATION,x=RFLD_RISKR))+geom_boxplot()+coord_flip()+labs(title="Riverine Flood Risk versus Population",y="Riverine Flood Risk")
+```
+
+```{r simple graphs FL}
+ggplot(FL_EJ_df,aes(y=LOWINCPCT,x=PM25))+geom_point(aes(color=LINGISOPCT))+geom_smooth(method="lm")+labs(title="PM25 v Low Income %",y="% Low Income Census Tract",x="PM25 Concentration")
+
+ggplot(FL_NRI_fire_shp,aes(y=POPULATION,x=WFIR_RISKR))+geom_boxplot()+coord_flip()+labs(title="Fire Risk versus Population",y="Fire Risk")
+ggplot(FL_NRI_flood_shp,aes(y=POPULATION,x=CFLD_RISKR))+geom_boxplot()+coord_flip()+labs(title="Coastal Flood Risk versus Population",y="Coastal Flood Risk")
+ggplot(FL_NRI_flood_shp,aes(y=POPULATION,x=RFLD_RISKR))+geom_boxplot()+coord_flip()+labs(title="Riverine Flood Risk versus Population",y="Riverine Flood Risk")
+```
+
+```{r simple graphs NC}
+ggplot(NC_EJ_df,aes(y=LOWINCPCT,x=PM25))+geom_point(aes(color=LINGISOPCT))+geom_smooth(method="lm")+labs(title="PM25 v Low Income %",y="% Low Income Census Tract",x="PM25 Concentration")
+
+ggplot(NC_NRI_fire_shp,aes(y=POPULATION,x=WFIR_RISKR))+geom_boxplot()+coord_flip()+labs(title="Fire Risk versus Population",y="Fire Risk")
+ggplot(NC_NRI_flood_shp,aes(y=POPULATION,x=CFLD_RISKR))+geom_boxplot()+coord_flip()+labs(title="Coastal Flood Risk versus Population",y="Coastal Flood Risk")
+ggplot(NC_NRI_flood_shp,aes(y=POPULATION,x=RFLD_RISKR))+geom_boxplot()+coord_flip()+labs(title="Riverine Flood Risk versus Population",y="Riverine Flood Risk")
+```
+
+```{r simple mapview tests}
+#CA
+mapview(CA_NRI_fire_shp,zcol="POPULATION")+ mapview(CA_NRI_flood_shp,zcol="RFLD_RISKR") +mapview(CA_EJ_shp,zcol="LOWINCPCT")
+#comment
+#FL
+mapview(FL_NRI_fire_shp,zcol="POPULATION")+ mapview(FL_NRI_flood_shp,zcol="RFLD_RISKR") +mapview(FL_EJ_shp,zcol="LOWINCPCT")
+
+#NC
+mapview(NC_NRI_fire_shp,zcol="POPULATION")+mapview(NC_NRI_flood_shp,zcol="RFLD_RISKR")+mapview(NC_EJ_shp,zcol="LOWINCPCT")
+```
+
+```{r mapview tests CA}
+mapview(list(CA_NRI_fire_shp,CA_EJ_shp),
+        zcol=c("WFIR_RISKS","PRE1960PCT"),
+        layer.name=list("Fire Risk","Relative Building Ages"))
+
+mapview(list(CA_NRI_flood_shp,CA_EJ_shp),
+        zcol=list("CFLD_RISKS","PRE1960PCT"),
+        layer.name=list("Coastal Flood Risk","Relative Building Ages"),
+        col.regions=list(mapviewPalette("mapviewVectorColors"),mapviewPalette("mapviewTopoColors")),
+        alpha.regions=.5)
+
+mapview(CA_NRI_fire_shp,zcol="WFIR_RISKS")
+mapview(CA_EJ_shp,zcol="LOWINCPCT",alpha.regions=.5,col.regions= mapviewPalette("mapviewTopoColors"))
+mapview(CA_EJ_shp,zcol="PRE1960PCT")
+
+
+
+
+# mapshot(m, file = paste0(getwd(), "/map.png"),
+#           remove_controls = c("homeButton", "layersControl"))
+```
 
 ### Time Series
 
