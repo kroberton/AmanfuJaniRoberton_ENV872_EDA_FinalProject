@@ -197,8 +197,15 @@ EJ_California <- EJ_filter %>%
 EJ_NorCar <- EJ_filter %>%
   filter(STATE_NAME=='North Carolina')
 
+
 EJ_Florida <-EJ_filter %>%
   filter(STATE_NAME=="Florida")
+
+## COMMENT THESE OUT THEN READ THEM IN
+write.table(EJ_California,'./Potential Data Sources/Census Tracts/EJScreen_California.csv',col.names=TRUE,sep=",")
+write.table(EJ_NorCar,'./Potential Data Sources/Census Tracts/EJScreen_NorthCarolina.csv',col.names=TRUE,sep=",")
+write.table(EJ_Florida,'./Potential Data Sources/Census Tracts/EJScreen_Florida.csv',col.names=TRUE,sep=",")
+###
 
 # EJ_NorCar <- EJScreen20 %>%
 #   filter(STATE_NAME=='North Carolina')
@@ -232,6 +239,9 @@ NRICaliFlood <- NRICaliFlood %>%
 
 
 # See GEOID Structure, <https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html> all the other stuff is Census Tracts not BlockGroups
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_California.csv'
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_California.csv'
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_California.csv'
 names(EJ_California)[names(EJ_California) == 'ID'] <- 'BLOCKID'
 EJ_California <- EJ_California %>%
   mutate(TRACTID = as.double(substr(EJ_California$BLOCKID,1,10)))
@@ -252,6 +262,10 @@ NRIFlorFire <-NRIFlorFire %>%
 NRIFlorFlood <- NRIFlorFlood %>%
   select(TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
 
+
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_Florida.csv'
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_Florida.csv'
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_Florida.csv'
 EJScreen_Florida <- EJ_Florida
 names(EJScreen_Florida)[names(EJScreen_Florida) == 'ID'] <- 'BLOCKID' 
 EJScreen_Florida <- EJScreen_Florida %>% mutate(TRACTID = as.double(substr(EJScreen_Florida$BLOCKID,1,11)))
@@ -272,6 +286,10 @@ NRINorCarFire <-NRINorCarFire %>%
 NRINorCarFlood <- NRINorCarFlood %>%
   select(TRACTFIPS,POPULATION,starts_with("CFLD"),starts_with("RFLD"))
 
+
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_NorthCarolina.csv'
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_NorthCarolina.csv'
+# READ IN THE CSV FILE FOR './Potential Data Sources/Census Tracts/EJScreen_NorthCarolina.csv'
 EJScreen_norcar <- EJ_NorCar
 names(EJScreen_norcar)[names(EJScreen_norcar) == 'ID'] <- 'BLOCKID' 
 EJScreen_norcar <- EJScreen_norcar %>% mutate(TRACTID = as.double(substr(EJScreen_norcar$BLOCKID,1,11)))
@@ -391,6 +409,9 @@ mapview(CA_EJ_shp,zcol="PRE1960PCT")
 
 
 
+mapview(list(NC_NRI_fire_shp,NC_EJ_shp),
+        zcol=c("WFIR_RISKS","PRE1960PCT"),
+        layer.name=list("Fire Risk","Relative Building Ages"))
 
 # mapshot(m, file = paste0(getwd(), "/map.png"),
 #           remove_controls = c("homeButton", "layersControl"))
